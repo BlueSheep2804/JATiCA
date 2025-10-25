@@ -1,51 +1,122 @@
 package dev.bluesheep.jatica;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.world.item.ArmorItem;
+import slimeknights.tconstruct.library.materials.json.MaterialStatJson;
+import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
+import slimeknights.tconstruct.library.materials.stats.MaterialStatType;
+import slimeknights.tconstruct.tools.stats.*;
 import thelm.jaopca.api.materials.IMaterial;
 
-public class TiCMaterialHelper {
-    public static JsonObject materialDefinitionProvider(IMaterial material) {
-        JsonObject condition = new JsonObject();
-        condition.addProperty("type", "forge:true");
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+public class TiCMaterialHelper {
+    private static final Gson gson = new Gson();
+    public static JsonObject materialDefinitionProvider(MaterialConfig config) {
         JsonObject materialDefinition = new JsonObject();
-        materialDefinition.addProperty("craftable", true);
-        materialDefinition.addProperty("tier", 2);
-        materialDefinition.addProperty("sortOrder", 0);
-        materialDefinition.addProperty("hidden", false);
+        materialDefinition.addProperty("craftable", config.getMaterialCraftable().get());
+        materialDefinition.addProperty("tier", config.getMaterialTier().get());
+        materialDefinition.addProperty("sortOrder", config.getMaterialSortOrder().get());
+        materialDefinition.addProperty("hidden", config.getMaterialHidden().get());
         return materialDefinition;
     }
 
-    public static JsonObject materialStatsProvider(IMaterial material) {
-        JsonObject handleStats = new JsonObject();
-        handleStats.addProperty("durability", 2.8F);
-        handleStats.addProperty("melee_damage", 4.2F);
-        handleStats.addProperty("melee_speed", 0.8F);
-        handleStats.addProperty("mining_speed", 0.0F);
+    public static JsonElement materialStatsProvider(MaterialConfig config) {
+        List<IMaterialStats> stats = new ArrayList<>();
+        // Melee / Harvest
+        if (config.getHeadEnabled().get()) {
+            HeadMaterialStats headStats = new HeadMaterialStats(
+                    config.getHeadDurability().get(),
+                    config.getHeadMiningSpeed().get(),
+                    config.getHeadMiningTier().get(),
+                    config.getHeadAttackDamage().get()
+            );
+            stats.add(headStats);
+        }
+        if (config.getHandleEnabled().get()) {
+            HandleMaterialStats handleStats = HandleMaterialStats.multipliers()
+                    .durability(config.getHandleDurability().get())
+                    .attackDamage(config.getHandleAttackDamage().get())
+                    .attackSpeed(config.getHandleAttackSpeed().get())
+                    .miningSpeed(config.getHandleMiningSpeed().get())
+                    .build();
+            stats.add(handleStats);
+        }
+        if (config.getBindingEnabled().get()) {
+            stats.add(StatlessMaterialStats.BINDING);
+        }
 
-        JsonObject headStats = new JsonObject();
-        headStats.addProperty("durability", 2804);
-        headStats.addProperty("melee_attack", 8.0F);
-        headStats.addProperty("mining_speed", 8.0F);
-        headStats.addProperty("mining_tier", "minecraft:diamond");
+        // Ranged
+        if (config.getLimbEnabled().get()) {
+            LimbMaterialStats limbStats = new LimbMaterialStats(
+                    config.getLimbDurability().get(),
+                    config.getLimbDrawSpeed().get(),
+                    config.getLimbVelocity().get(),
+                    config.getLimbAccuracy().get()
+            );
+            stats.add(limbStats);
+        }
+        if (config.getGripEnabled().get()) {
+            GripMaterialStats gripStats = new GripMaterialStats(
+                    config.getGripDurability().get(),
+                    config.getGripAccuracy().get(),
+                    config.getGripAttackDamage().get()
+            );
+            stats.add(gripStats);
+        }
+        if (config.getBowstringEnabled().get()) {
+            stats.add(StatlessMaterialStats.BOWSTRING);
+        }
 
-        JsonObject stats = new JsonObject();
-        stats.add("tconstruct:binding", new JsonObject());
-        stats.add("tconstruct:handle", handleStats);
-        stats.add("tconstruct:head", headStats);
-        JsonObject root = new JsonObject();
-        root.add("stats", stats);
-        return root;
+        // Armor
+        Map<ArmorItem.Type, Boolean> enabledArmor = Map.of(
+                ArmorItem.Type.HELMET, config.getPlatingHelmetEnabled().get(),
+                ArmorItem.Type.CHESTPLATE, config.getPlatingChestplateEnabled().get(),
+                ArmorItem.Type.LEGGINGS, config.getPlatingLeggingsEnabled().get(),
+                ArmorItem.Type.BOOTS, config.getPlatingBootsEnabled().get()
+        );
+
+        PlatingMaterialStats.Builder platingStats = PlatingMaterialStats.builder()
+                .durabilityFactor(config.getPlatingDurabilityFactor().get())
+                .armor(
+                        config.getPlatingBootsArmor().get(),
+                        config.getPlatingLeggingsArmor().get(),
+                        config.getPlatingChestplateArmor().get(),
+                        config.getPlatingHelmetArmor().get()
+                )
+                .toughness(config.getPlatingToughness().get())
+                .knockbackResistance(config.getPlatingKnockbackResistance().get());
+        for (Map.Entry<ArmorItem.Type, Boolean> armor : enabledArmor.entrySet()) {
+            if (armor.getValue()) stats.add(platingStats.build(armor.getKey()));
+        }
+        if (config.getPlatingShieldEnabled().get()) {
+            stats.add(platingStats.buildShield());
+        }
+
+        if (config.getMailleEnabled().get()) {
+            stats.add(StatlessMaterialStats.MAILLE);
+        }
+
+        if (config.getRepairKitEnabled().get()) {
+            stats.add(StatlessMaterialStats.REPAIR_KIT);
+        }
+
+        return gson.toJsonTree(convert(stats));
     }
 
-    public static JsonObject materialRenderInfoProvider(IMaterial material) {
+    public static JsonObject materialRenderInfoProvider(IMaterial material, MaterialConfig config) {
         String color = Integer.toHexString(material.getColor());
         JsonArray fallbacks = new JsonArray();
         fallbacks.add("metal");
 
         JsonArray supported_stats = new JsonArray();
-        supported_stats.add("tconstruct:binding");
+        config.enabledParts().forEach(supported_stats::add);
 
         JsonArray palette = new JsonArray();
         for (int i : new int[]{255, 216, 178, 140, 102, 63, 0}) {
@@ -69,5 +140,18 @@ public class TiCMaterialHelper {
         root.add("generator", generator);
 
         return root;
+    }
+
+    // https://github.com/SlimeKnights/TinkersConstruct/blob/0dc23ca4f47382e337febf0742d3a3c6a337f6cf/src/main/java/slimeknights/tconstruct/library/data/material/AbstractMaterialStatsDataProvider.java
+    private static MaterialStatJson convert(List<IMaterialStats> stats) {
+        return new MaterialStatJson(stats.stream()
+                .collect(Collectors.toMap(
+                        IMaterialStats::getIdentifier,
+                        stat -> encodeStats(stat, stat.getType()))));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends IMaterialStats> JsonElement encodeStats(IMaterialStats stats, MaterialStatType<T> type) {
+        return type.getLoadable().serialize((T) stats);
     }
 }

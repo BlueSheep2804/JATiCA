@@ -89,6 +89,7 @@ dependencies {
     modImplementation "curse.maven:jaopca-266936:6052504"
     modImplementation "curse.maven:mantle-74924:6635380"
     modImplementation "curse.maven:tinkers-construct-74072:6635554"
+    modRuntimeOnly "curse.maven:jei-238222:6600311"
 }
 
 jar {

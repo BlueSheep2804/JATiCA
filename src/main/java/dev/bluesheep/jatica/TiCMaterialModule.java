@@ -11,15 +11,17 @@ import thelm.jaopca.api.modules.JAOPCAModule;
 import thelm.jaopca.api.resources.IInMemoryResourcePack;
 
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.Set;
 
 import static dev.bluesheep.jatica.JATiCA.rl;
 
 @JAOPCAModule(modDependencies = "tconstruct")
 public class TiCMaterialModule implements IModule {
-    private final JAOPCAApi api = JAOPCAApi.instance();
     // TODO: ticで定義されているものを除外するようにする
     private static final Set<String> BLACKLIST = Set.of("amethyst_bronze", "cinderslime", "cobalt", "copper", "hepatizon", "iron", "knightslime", "manyullyn", "pig_iron", "queens_slime", "rose_gold", "slimesteel", "soulsteel", "steel");
+    private final JAOPCAApi api = JAOPCAApi.instance();
+    private Map<IMaterial, IDynamicSpecConfig> configs;
 
     @Override
     public String getName() {
@@ -37,17 +39,23 @@ public class TiCMaterialModule implements IModule {
     }
 
     @Override
+    public void defineMaterialConfig(IModuleData moduleData, Map<IMaterial, IDynamicSpecConfig> configs) {
+        this.configs = configs;
+    }
+
+    @Override
     public void onCreateDataPack(IModuleData moduleData, IInMemoryResourcePack dataPack) {
         for (IMaterial material : moduleData.getMaterials()) {
-            dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/definition/" + material.getName() + ".json"), TiCMaterialHelper.materialDefinitionProvider(material));
-            dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/stats/" + material.getName() + ".json"), TiCMaterialHelper.materialStatsProvider(material));
+            MaterialConfig materialConfig = new MaterialConfig(configs.get(material));
+            dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/definition/" + material.getName() + ".json"), TiCMaterialHelper.materialDefinitionProvider(materialConfig));
+            dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/stats/" + material.getName() + ".json"), TiCMaterialHelper.materialStatsProvider(materialConfig));
         }
     }
 
     @Override
     public void onCreateResourcePack(IModuleData moduleData, IInMemoryResourcePack resourcePack) {
         for (IMaterial material : moduleData.getMaterials()) {
-            resourcePack.putJson(PackType.CLIENT_RESOURCES, rl("tinkering/materials/" + material.getName() + ".json"), TiCMaterialHelper.materialRenderInfoProvider(material));
+            resourcePack.putJson(PackType.CLIENT_RESOURCES, rl("tinkering/materials/" + material.getName() + ".json"), TiCMaterialHelper.materialRenderInfoProvider(material, new MaterialConfig(configs.get(material))));
         }
     }
 }
