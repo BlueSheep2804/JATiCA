@@ -14,6 +14,7 @@ import thelm.jaopca.api.materials.IMaterial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TiCMaterialHelper {
@@ -110,6 +111,31 @@ public class TiCMaterialHelper {
         return gson.toJsonTree(convert(stats));
     }
 
+    public static JsonElement materialTraitsProvider(MaterialConfig config) {
+        JsonObject root = new JsonObject();
+        setTraits(root, "default", config.getTraitsDefault().get());
+
+        JsonObject perStat = new JsonObject();
+        setTraits(perStat, "tconstruct:melee_harvest", config.getTraitsMeleeHarvest().get());
+        setTraits(perStat, "tconstruct:head", config.getHeadTraits().get());
+        setTraits(perStat, "tconstruct:handle", config.getHandleTraits().get());
+        setTraits(perStat, "tconstruct:binding", config.getBindingTraits().get());
+        setTraits(perStat, "tconstruct:ranged", config.getTraitsRanged().get());
+        setTraits(perStat, "tconstruct:limb", config.getLimbTraits().get());
+        setTraits(perStat, "tconstruct:grip", config.getGripTraits().get());
+        setTraits(perStat, "tconstruct:bowstring", config.getBowstringTraits().get());
+        setTraits(perStat, "tconstruct:armor", config.getTraitsArmor().get());
+        setTraits(perStat, "tconstruct:plating_helmet", config.getPlatingTraitsHelmet().get());
+        setTraits(perStat, "tconstruct:plating_chestplate", config.getPlatingTraitsChestplate().get());
+        setTraits(perStat, "tconstruct:plating_leggings", config.getPlatingTraitsLeggings().get());
+        setTraits(perStat, "tconstruct:plating_boots", config.getPlatingTraitsBoots().get());
+        setTraits(perStat, "tconstruct:plating_shield", config.getPlatingTraitsShield().get());
+        setTraits(perStat, "tconstruct:maille", config.getMailleTraits().get());
+
+        root.add("perStat", perStat);
+        return root;
+    }
+
     public static JsonObject materialRenderInfoProvider(IMaterial material, MaterialConfig config) {
         String color = Integer.toHexString(material.getColor());
         JsonArray fallbacks = new JsonArray();
@@ -140,6 +166,29 @@ public class TiCMaterialHelper {
         root.add("generator", generator);
 
         return root;
+    }
+
+    private static void setTraits(JsonObject json, String statId, List<String> traits) {
+        if (traits.isEmpty()) {
+            return;
+        }
+        JsonArray traitsArray = new JsonArray();
+        if (!Objects.equals(traits.get(0), "NONE")) {
+            traits.forEach(traitString -> {
+                JsonObject trait = new JsonObject();
+                String[] traitParts = traitString.split(" ");
+                trait.addProperty("name", traitParts[0]);
+                if (traitParts.length > 1) {
+                    try {
+                        int level = Integer.parseInt(traitParts[1]);
+                        trait.addProperty("level", level);
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+                traitsArray.add(trait);
+            });
+        }
+        json.add(statId, traitsArray);
     }
 
     // https://github.com/SlimeKnights/TinkersConstruct/blob/0dc23ca4f47382e337febf0742d3a3c6a337f6cf/src/main/java/slimeknights/tconstruct/library/data/material/AbstractMaterialStatsDataProvider.java

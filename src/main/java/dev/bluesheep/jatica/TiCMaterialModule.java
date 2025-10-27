@@ -49,6 +49,7 @@ public class TiCMaterialModule implements IModule {
             MaterialConfig materialConfig = new MaterialConfig(configs.get(material));
             dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/definition/" + material.getName() + ".json"), TiCMaterialHelper.materialDefinitionProvider(materialConfig));
             dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/stats/" + material.getName() + ".json"), TiCMaterialHelper.materialStatsProvider(materialConfig));
+            dataPack.putJson(PackType.SERVER_DATA, rl("tinkering/materials/traits/" + material.getName() + ".json"), TiCMaterialHelper.materialTraitsProvider(materialConfig));
         }
     }
 

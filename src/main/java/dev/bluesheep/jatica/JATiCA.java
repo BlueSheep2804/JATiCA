@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 @Mod(JATiCA.MODID)
 public class JATiCA {
     public static final String MODID = "jatica";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    static final Logger LOGGER = LogUtils.getLogger();
 
     public JATiCA() {}
 
