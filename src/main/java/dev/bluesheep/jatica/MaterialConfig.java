@@ -12,9 +12,12 @@ public class MaterialConfig {
     private IDynamicSpecConfig config;
 
     private final Lazy<Boolean> materialCraftable = Lazy.of(() -> config.getDefinedBoolean("jatica.material.craftable", true, "If true, this material is allowed to be crafted in the part builder."));
+    private final Lazy<Boolean> materialCastable = Lazy.of(() -> config.getDefinedBoolean("jatica.material.castable", true, "If true, this material is allowed to be cast in the smeltery."));
+    private final Lazy<Boolean> materialMeltable = Lazy.of(() -> config.getDefinedBoolean("jatica.material.meltable", true, "If true, this material is allowed to be melted in the smeltery."));
     private final Lazy<Integer> materialTier = Lazy.of(() -> config.getDefinedInt("jatica.material.tier", 1, "Material tier."));
     private final Lazy<Integer> materialSortOrder = Lazy.of(() -> config.getDefinedInt("jatica.material.sort_order", 0, "Sort order within the tier."));
     private final Lazy<Boolean> materialHidden = Lazy.of(() -> config.getDefinedBoolean("jatica.material.hidden", false, "If true, this material is not shown in the book or as part of material items, though it may still show in crafting blocks."));
+    private final Lazy<List<String>> materialFluid = Lazy.of(() -> config.getDefinedStringList("jatica.material.fluid", new ArrayList<>(), "List of fluids for this material. If empty, the default fluid tag will be used."));
 
     private final Lazy<List<String>> traitsDefault = Lazy.of(() -> config.getDefinedStringList("jatica.traits.default", new ArrayList<>(), "List of default traits for this material."));
     private final Lazy<List<String>> traitsMeleeHarvest = Lazy.of(() -> config.getDefinedStringList("jatica.traits.melee_harvest", new ArrayList<>(), "List of melee/harvest traits for this material."));
@@ -106,6 +109,14 @@ public class MaterialConfig {
         return materialCraftable;
     }
 
+    public Lazy<Boolean> getMaterialCastable() {
+        return materialCastable;
+    }
+
+    public Lazy<Boolean> getMaterialMeltable() {
+        return materialMeltable;
+    }
+
     public Lazy<Integer> getMaterialTier() {
         return materialTier;
     }
@@ -116,6 +127,10 @@ public class MaterialConfig {
 
     public Lazy<Boolean> getMaterialHidden() {
         return materialHidden;
+    }
+
+    public Lazy<List<String>> getMaterialFluid() {
+        return materialFluid;
     }
 
     public Lazy<List<String>> getTraitsDefault() {
