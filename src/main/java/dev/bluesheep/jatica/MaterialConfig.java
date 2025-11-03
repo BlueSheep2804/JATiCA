@@ -24,44 +24,44 @@ public class MaterialConfig {
     private final Lazy<List<String>> traitsRanged = Lazy.of(() -> config.getDefinedStringList("jatica.traits.ranged", new ArrayList<>(), "List of ranged traits for this material."));
     private final Lazy<List<String>> traitsArmor = Lazy.of(() -> config.getDefinedStringList("jatica.traits.armor", new ArrayList<>(), "List of armor traits for this material."));
 
-    private final Lazy<Boolean> headEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.head.enabled", true, "If true, add the head parts."));
+    private final Lazy<Boolean> headEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.head.enabled", false, "If true, add the head parts."));
     private final Lazy<Integer> headDurability = Lazy.of(() -> config.getDefinedInt("jatica.head.durability", 60, "Durability value."));
     private final Lazy<Float> headMiningSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.head.mining_speed", 2.0F, "Mining speed value."));
     private final Lazy<Tiers> headMiningTier = Lazy.of(() -> config.getDefinedEnum("jatica.head.mining_tier", Tiers.class, Tiers.WOOD, "Mining tier value."));
     private final Lazy<Float> headAttackDamage = Lazy.of(() -> config.getDefinedFloat("jatica.head.attack_damage", 0.0F, "Attack damage value."));
     private final Lazy<List<String>> headTraits = Lazy.of(() -> config.getDefinedStringList("jatica.head.traits", new ArrayList<>(), "List of head traits for this material."));
 
-    private final Lazy<Boolean> handleEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.handle.enabled", true, "If true, add the handle parts."));
+    private final Lazy<Boolean> handleEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.handle.enabled", false, "If true, add the handle parts."));
     private final Lazy<Float> handleDurability = Lazy.of(() -> config.getDefinedFloat("jatica.handle.durability", 1.0F, "Durability multiplier."));
     private final Lazy<Float> handleAttackDamage = Lazy.of(() -> config.getDefinedFloat("jatica.handle.attack_damage", 1.0F, "Attack damage multiplier."));
     private final Lazy<Float> handleAttackSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.handle.attack_speed", 1.0F, "Attack speed multiplier."));
     private final Lazy<Float> handleMiningSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.handle.mining_speed", 1.0F, "Mining speed multiplier."));
     private final Lazy<List<String>> handleTraits = Lazy.of(() -> config.getDefinedStringList("jatica.handle.traits", new ArrayList<>(), "List of handle traits for this material."));
 
-    private final Lazy<Boolean> bindingEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.binding.enabled", true, "If true, add the binding parts."));
+    private final Lazy<Boolean> bindingEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.binding.enabled", false, "If true, add the binding parts."));
     private final Lazy<List<String>> bindingTraits = Lazy.of(() -> config.getDefinedStringList("jatica.binding.traits", new ArrayList<>(), "List of binding traits for this material."));
 
-    private final Lazy<Boolean> limbEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.limb.enabled", true, "If true, add the limb parts."));
+    private final Lazy<Boolean> limbEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.limb.enabled", false, "If true, add the limb parts."));
     private final Lazy<Integer> limbDurability = Lazy.of(() -> config.getDefinedInt("jatica.limb.durability", 60, "Durability value."));
     private final Lazy<Float> limbDrawSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.limb.draw_speed", 0.0F, "Draw speed value."));
     private final Lazy<Float> limbVelocity = Lazy.of(() -> config.getDefinedFloat("jatica.limb.velocity", 0.0F, "Velocity value."));
     private final Lazy<Float> limbAccuracy = Lazy.of(() -> config.getDefinedFloat("jatica.limb.accuracy", 0.0F, "Accuracy value."));
     private final Lazy<List<String>> limbTraits = Lazy.of(() -> config.getDefinedStringList("jatica.limb.traits", new ArrayList<>(), "List of limb traits for this material."));
 
-    private final Lazy<Boolean> gripEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.grip.enabled", true, "If true, add the grip parts."));
+    private final Lazy<Boolean> gripEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.grip.enabled", false, "If true, add the grip parts."));
     private final Lazy<Float> gripDurability = Lazy.of(() -> config.getDefinedFloat("jatica.grip.durability", 1.0F, "Durability multiplier."));
     private final Lazy<Float> gripAccuracy = Lazy.of(() -> config.getDefinedFloat("jatica.grip.accuracy", 1.0F, "Accuracy multiplier."));
     private final Lazy<Float> gripAttackDamage = Lazy.of(() -> config.getDefinedFloat("jatica.grip.attack_damage", 1.0F, "Attack damage multiplier."));
     private final Lazy<List<String>> gripTraits = Lazy.of(() -> config.getDefinedStringList("jatica.grip.traits", new ArrayList<>(), "List of grip traits for this material."));
 
-    private final Lazy<Boolean> bowstringEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.bowstring.enabled", true, "If true, add the bowstring parts."));
+    private final Lazy<Boolean> bowstringEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.bowstring.enabled", false, "If true, add the bowstring parts."));
     private final Lazy<List<String>> bowstringTraits = Lazy.of(() -> config.getDefinedStringList("jatica.bowstring.traits", new ArrayList<>(), "List of bowstring traits for this material."));
 
-    private final Lazy<Boolean> platingHelmetEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.helmet_enabled", true, "If true, add the helmet plating."));
-    private final Lazy<Boolean> platingChestplateEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.chestplate_enabled", true, "If true, add the chestplate plating."));
-    private final Lazy<Boolean> platingLeggingsEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.leggings_enabled", true, "If true, add the leggings plating."));
-    private final Lazy<Boolean> platingBootsEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.boots_enabled", true, "If true, add the boots plating."));
-    private final Lazy<Boolean> platingShieldEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.shield_enabled", true, "If true, add the shield plating."));
+    private final Lazy<Boolean> platingHelmetEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.helmet_enabled", false, "If true, add the helmet plating."));
+    private final Lazy<Boolean> platingChestplateEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.chestplate_enabled", false, "If true, add the chestplate plating."));
+    private final Lazy<Boolean> platingLeggingsEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.leggings_enabled", false, "If true, add the leggings plating."));
+    private final Lazy<Boolean> platingBootsEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.boots_enabled", false, "If true, add the boots plating."));
+    private final Lazy<Boolean> platingShieldEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.shield_enabled", false, "If true, add the shield plating."));
 
     private final Lazy<Float> platingHelmetArmor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.helmet_armor", 0.0F, "Armor value for helmet plating."));
     private final Lazy<Float> platingChestplateArmor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.chestplate_armor", 0.0F, "Armor value for chestplate plating."));

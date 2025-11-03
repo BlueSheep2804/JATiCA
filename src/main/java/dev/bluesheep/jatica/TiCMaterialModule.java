@@ -25,8 +25,6 @@ import static dev.bluesheep.jatica.JATiCA.rl;
 
 @JAOPCAModule(modDependencies = "tconstruct")
 public class TiCMaterialModule implements IModule {
-    // TODO: ticで定義されているものを除外するようにする
-    private static final Set<String> BLACKLIST = Set.of("amethyst_bronze", "cinderslime", "cobalt", "copper", "hepatizon", "iron", "knightslime", "manyullyn", "pig_iron", "queens_slime", "rose_gold", "slimesteel", "soulsteel", "steel");
     private final JAOPCAApi api = JAOPCAApi.instance();
     private Map<IMaterial, IDynamicSpecConfig> configs;
 
@@ -36,13 +34,13 @@ public class TiCMaterialModule implements IModule {
     }
 
     @Override
-    public Set<MaterialType> getMaterialTypes() {
-        return EnumSet.allOf(MaterialType.class);
+    public boolean isPassive() {
+        return true;
     }
 
     @Override
-    public Set<String> getDefaultMaterialBlacklist() {
-        return BLACKLIST;
+    public Set<MaterialType> getMaterialTypes() {
+        return EnumSet.allOf(MaterialType.class);
     }
 
     @Override
