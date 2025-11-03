@@ -1,87 +1,87 @@
 package dev.bluesheep.jatica;
 
 import net.minecraft.world.item.Tiers;
-import net.minecraftforge.common.util.Lazy;
 import thelm.jaopca.api.config.IDynamicSpecConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class MaterialConfig {
     private IDynamicSpecConfig config;
 
-    private final Lazy<Boolean> materialCraftable = Lazy.of(() -> config.getDefinedBoolean("jatica.material.craftable", true, "If true, this material is allowed to be crafted in the part builder."));
-    private final Lazy<Boolean> materialCastable = Lazy.of(() -> config.getDefinedBoolean("jatica.material.castable", true, "If true, this material is allowed to be cast in the smeltery."));
-    private final Lazy<Boolean> materialMeltable = Lazy.of(() -> config.getDefinedBoolean("jatica.material.meltable", true, "If true, this material is allowed to be melted in the smeltery."));
-    private final Lazy<Integer> materialTier = Lazy.of(() -> config.getDefinedInt("jatica.material.tier", 1, "Material tier."));
-    private final Lazy<Integer> materialSortOrder = Lazy.of(() -> config.getDefinedInt("jatica.material.sort_order", 0, "Sort order within the tier."));
-    private final Lazy<Boolean> materialHidden = Lazy.of(() -> config.getDefinedBoolean("jatica.material.hidden", false, "If true, this material is not shown in the book or as part of material items, though it may still show in crafting blocks."));
-    private final Lazy<List<String>> materialFluid = Lazy.of(() -> config.getDefinedStringList("jatica.material.fluid", new ArrayList<>(), "List of fluids for this material. If empty, the default fluid tag will be used."));
+    private final Supplier<Boolean> materialCraftable = () -> config.getDefinedBoolean("jatica.material.craftable", true, "If true, this material is allowed to be crafted in the part builder.");
+    private final Supplier<Boolean> materialCastable = () -> config.getDefinedBoolean("jatica.material.castable", true, "If true, this material is allowed to be cast in the smeltery.");
+    private final Supplier<Boolean> materialMeltable = () -> config.getDefinedBoolean("jatica.material.meltable", true, "If true, this material is allowed to be melted in the smeltery.");
+    private final Supplier<Integer> materialTier = () -> config.getDefinedInt("jatica.material.tier", 1, "Material tier.");
+    private final Supplier<Integer> materialSortOrder = () -> config.getDefinedInt("jatica.material.sort_order", 0, "Sort order within the tier.");
+    private final Supplier<Boolean> materialHidden = () -> config.getDefinedBoolean("jatica.material.hidden", false, "If true, this material is not shown in the book or as part of material items, though it may still show in crafting blocks.");
+    private final Supplier<List<String>> materialFluid = () -> config.getDefinedStringList("jatica.material.fluid", new ArrayList<>(), "List of fluids for this material. If empty, the default fluid tag will be used.");
 
-    private final Lazy<List<String>> traitsDefault = Lazy.of(() -> config.getDefinedStringList("jatica.traits.default", new ArrayList<>(), "List of default traits for this material."));
-    private final Lazy<List<String>> traitsMeleeHarvest = Lazy.of(() -> config.getDefinedStringList("jatica.traits.melee_harvest", new ArrayList<>(), "List of melee/harvest traits for this material."));
-    private final Lazy<List<String>> traitsRanged = Lazy.of(() -> config.getDefinedStringList("jatica.traits.ranged", new ArrayList<>(), "List of ranged traits for this material."));
-    private final Lazy<List<String>> traitsArmor = Lazy.of(() -> config.getDefinedStringList("jatica.traits.armor", new ArrayList<>(), "List of armor traits for this material."));
+    private final Supplier<List<String>> traitsDefault = () -> config.getDefinedStringList("jatica.traits.default", new ArrayList<>(), "List of default traits for this material.");
+    private final Supplier<List<String>> traitsMeleeHarvest = () -> config.getDefinedStringList("jatica.traits.melee_harvest", new ArrayList<>(), "List of melee/harvest traits for this material.");
+    private final Supplier<List<String>> traitsRanged = () -> config.getDefinedStringList("jatica.traits.ranged", new ArrayList<>(), "List of ranged traits for this material.");
+    private final Supplier<List<String>> traitsArmor = () -> config.getDefinedStringList("jatica.traits.armor", new ArrayList<>(), "List of armor traits for this material.");
 
-    private final Lazy<Boolean> headEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.head.enabled", false, "If true, add the head parts."));
-    private final Lazy<Integer> headDurability = Lazy.of(() -> config.getDefinedInt("jatica.head.durability", 60, "Durability value."));
-    private final Lazy<Float> headMiningSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.head.mining_speed", 2.0F, "Mining speed value."));
-    private final Lazy<Tiers> headMiningTier = Lazy.of(() -> config.getDefinedEnum("jatica.head.mining_tier", Tiers.class, Tiers.WOOD, "Mining tier value."));
-    private final Lazy<Float> headAttackDamage = Lazy.of(() -> config.getDefinedFloat("jatica.head.attack_damage", 0.0F, "Attack damage value."));
-    private final Lazy<List<String>> headTraits = Lazy.of(() -> config.getDefinedStringList("jatica.head.traits", new ArrayList<>(), "List of head traits for this material."));
+    private final Supplier<Boolean> headEnabled = () -> config.getDefinedBoolean("jatica.head.enabled", false, "If true, add the head parts.");
+    private final Supplier<Integer> headDurability = () -> config.getDefinedInt("jatica.head.durability", 60, "Durability value.");
+    private final Supplier<Float> headMiningSpeed = () -> config.getDefinedFloat("jatica.head.mining_speed", 2.0F, "Mining speed value.");
+    private final Supplier<Tiers> headMiningTier = () -> config.getDefinedEnum("jatica.head.mining_tier", Tiers.class, Tiers.WOOD, "Mining tier value.");
+    private final Supplier<Float> headAttackDamage = () -> config.getDefinedFloat("jatica.head.attack_damage", 0.0F, "Attack damage value.");
+    private final Supplier<List<String>> headTraits = () -> config.getDefinedStringList("jatica.head.traits", new ArrayList<>(), "List of head traits for this material.");
 
-    private final Lazy<Boolean> handleEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.handle.enabled", false, "If true, add the handle parts."));
-    private final Lazy<Float> handleDurability = Lazy.of(() -> config.getDefinedFloat("jatica.handle.durability", 1.0F, "Durability multiplier."));
-    private final Lazy<Float> handleAttackDamage = Lazy.of(() -> config.getDefinedFloat("jatica.handle.attack_damage", 1.0F, "Attack damage multiplier."));
-    private final Lazy<Float> handleAttackSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.handle.attack_speed", 1.0F, "Attack speed multiplier."));
-    private final Lazy<Float> handleMiningSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.handle.mining_speed", 1.0F, "Mining speed multiplier."));
-    private final Lazy<List<String>> handleTraits = Lazy.of(() -> config.getDefinedStringList("jatica.handle.traits", new ArrayList<>(), "List of handle traits for this material."));
+    private final Supplier<Boolean> handleEnabled = () -> config.getDefinedBoolean("jatica.handle.enabled", false, "If true, add the handle parts.");
+    private final Supplier<Float> handleDurability = () -> config.getDefinedFloat("jatica.handle.durability", 1.0F, "Durability multiplier.");
+    private final Supplier<Float> handleAttackDamage = () -> config.getDefinedFloat("jatica.handle.attack_damage", 1.0F, "Attack damage multiplier.");
+    private final Supplier<Float> handleAttackSpeed = () -> config.getDefinedFloat("jatica.handle.attack_speed", 1.0F, "Attack speed multiplier.");
+    private final Supplier<Float> handleMiningSpeed = () -> config.getDefinedFloat("jatica.handle.mining_speed", 1.0F, "Mining speed multiplier.");
+    private final Supplier<List<String>> handleTraits = () -> config.getDefinedStringList("jatica.handle.traits", new ArrayList<>(), "List of handle traits for this material.");
 
-    private final Lazy<Boolean> bindingEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.binding.enabled", false, "If true, add the binding parts."));
-    private final Lazy<List<String>> bindingTraits = Lazy.of(() -> config.getDefinedStringList("jatica.binding.traits", new ArrayList<>(), "List of binding traits for this material."));
+    private final Supplier<Boolean> bindingEnabled = () -> config.getDefinedBoolean("jatica.binding.enabled", false, "If true, add the binding parts.");
+    private final Supplier<List<String>> bindingTraits = () -> config.getDefinedStringList("jatica.binding.traits", new ArrayList<>(), "List of binding traits for this material.");
 
-    private final Lazy<Boolean> limbEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.limb.enabled", false, "If true, add the limb parts."));
-    private final Lazy<Integer> limbDurability = Lazy.of(() -> config.getDefinedInt("jatica.limb.durability", 60, "Durability value."));
-    private final Lazy<Float> limbDrawSpeed = Lazy.of(() -> config.getDefinedFloat("jatica.limb.draw_speed", 0.0F, "Draw speed value."));
-    private final Lazy<Float> limbVelocity = Lazy.of(() -> config.getDefinedFloat("jatica.limb.velocity", 0.0F, "Velocity value."));
-    private final Lazy<Float> limbAccuracy = Lazy.of(() -> config.getDefinedFloat("jatica.limb.accuracy", 0.0F, "Accuracy value."));
-    private final Lazy<List<String>> limbTraits = Lazy.of(() -> config.getDefinedStringList("jatica.limb.traits", new ArrayList<>(), "List of limb traits for this material."));
+    private final Supplier<Boolean> limbEnabled = () -> config.getDefinedBoolean("jatica.limb.enabled", false, "If true, add the limb parts.");
+    private final Supplier<Integer> limbDurability = () -> config.getDefinedInt("jatica.limb.durability", 60, "Durability value.");
+    private final Supplier<Float> limbDrawSpeed = () -> config.getDefinedFloat("jatica.limb.draw_speed", 0.0F, "Draw speed value.");
+    private final Supplier<Float> limbVelocity = () -> config.getDefinedFloat("jatica.limb.velocity", 0.0F, "Velocity value.");
+    private final Supplier<Float> limbAccuracy = () -> config.getDefinedFloat("jatica.limb.accuracy", 0.0F, "Accuracy value.");
+    private final Supplier<List<String>> limbTraits = () -> config.getDefinedStringList("jatica.limb.traits", new ArrayList<>(), "List of limb traits for this material.");
 
-    private final Lazy<Boolean> gripEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.grip.enabled", false, "If true, add the grip parts."));
-    private final Lazy<Float> gripDurability = Lazy.of(() -> config.getDefinedFloat("jatica.grip.durability", 1.0F, "Durability multiplier."));
-    private final Lazy<Float> gripAccuracy = Lazy.of(() -> config.getDefinedFloat("jatica.grip.accuracy", 1.0F, "Accuracy multiplier."));
-    private final Lazy<Float> gripAttackDamage = Lazy.of(() -> config.getDefinedFloat("jatica.grip.attack_damage", 1.0F, "Attack damage multiplier."));
-    private final Lazy<List<String>> gripTraits = Lazy.of(() -> config.getDefinedStringList("jatica.grip.traits", new ArrayList<>(), "List of grip traits for this material."));
+    private final Supplier<Boolean> gripEnabled = () -> config.getDefinedBoolean("jatica.grip.enabled", false, "If true, add the grip parts.");
+    private final Supplier<Float> gripDurability = () -> config.getDefinedFloat("jatica.grip.durability", 1.0F, "Durability multiplier.");
+    private final Supplier<Float> gripAccuracy = () -> config.getDefinedFloat("jatica.grip.accuracy", 1.0F, "Accuracy multiplier.");
+    private final Supplier<Float> gripAttackDamage = () -> config.getDefinedFloat("jatica.grip.attack_damage", 1.0F, "Attack damage multiplier.");
+    private final Supplier<List<String>> gripTraits = () -> config.getDefinedStringList("jatica.grip.traits", new ArrayList<>(), "List of grip traits for this material.");
 
-    private final Lazy<Boolean> bowstringEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.bowstring.enabled", false, "If true, add the bowstring parts."));
-    private final Lazy<List<String>> bowstringTraits = Lazy.of(() -> config.getDefinedStringList("jatica.bowstring.traits", new ArrayList<>(), "List of bowstring traits for this material."));
+    private final Supplier<Boolean> bowstringEnabled = () -> config.getDefinedBoolean("jatica.bowstring.enabled", false, "If true, add the bowstring parts.");
+    private final Supplier<List<String>> bowstringTraits = () -> config.getDefinedStringList("jatica.bowstring.traits", new ArrayList<>(), "List of bowstring traits for this material.");
 
-    private final Lazy<Boolean> platingHelmetEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.helmet_enabled", false, "If true, add the helmet plating."));
-    private final Lazy<Boolean> platingChestplateEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.chestplate_enabled", false, "If true, add the chestplate plating."));
-    private final Lazy<Boolean> platingLeggingsEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.leggings_enabled", false, "If true, add the leggings plating."));
-    private final Lazy<Boolean> platingBootsEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.boots_enabled", false, "If true, add the boots plating."));
-    private final Lazy<Boolean> platingShieldEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.plating.shield_enabled", false, "If true, add the shield plating."));
+    private final Supplier<Boolean> platingHelmetEnabled = () -> config.getDefinedBoolean("jatica.plating.helmet_enabled", false, "If true, add the helmet plating.");
+    private final Supplier<Boolean> platingChestplateEnabled = () -> config.getDefinedBoolean("jatica.plating.chestplate_enabled", false, "If true, add the chestplate plating.");
+    private final Supplier<Boolean> platingLeggingsEnabled = () -> config.getDefinedBoolean("jatica.plating.leggings_enabled", false, "If true, add the leggings plating.");
+    private final Supplier<Boolean> platingBootsEnabled = () -> config.getDefinedBoolean("jatica.plating.boots_enabled", false, "If true, add the boots plating.");
+    private final Supplier<Boolean> platingShieldEnabled = () -> config.getDefinedBoolean("jatica.plating.shield_enabled", false, "If true, add the shield plating.");
 
-    private final Lazy<Float> platingHelmetArmor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.helmet_armor", 0.0F, "Armor value for helmet plating."));
-    private final Lazy<Float> platingChestplateArmor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.chestplate_armor", 0.0F, "Armor value for chestplate plating."));
-    private final Lazy<Float> platingLeggingsArmor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.leggings_armor", 0.0F, "Armor value for leggings plating."));
-    private final Lazy<Float> platingBootsArmor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.boots_armor", 0.0F, "Armor value for boots plating."));
+    private final Supplier<Float> platingHelmetArmor = () -> config.getDefinedFloat("jatica.plating.helmet_armor", 0.0F, "Armor value for helmet plating.");
+    private final Supplier<Float> platingChestplateArmor = () -> config.getDefinedFloat("jatica.plating.chestplate_armor", 0.0F, "Armor value for chestplate plating.");
+    private final Supplier<Float> platingLeggingsArmor = () -> config.getDefinedFloat("jatica.plating.leggings_armor", 0.0F, "Armor value for leggings plating.");
+    private final Supplier<Float> platingBootsArmor = () -> config.getDefinedFloat("jatica.plating.boots_armor", 0.0F, "Armor value for boots plating.");
 
-    private final Lazy<Float> platingDurabilityFactor = Lazy.of(() -> config.getDefinedFloat("jatica.plating.durability_factor", 16.0F, "Durability factor for all plating."));
-    private final Lazy<Float> platingToughness = Lazy.of(() -> config.getDefinedFloat("jatica.plating.toughness", 0.0F, "Toughness value for all plating."));
-    private final Lazy<Float> platingKnockbackResistance = Lazy.of(() -> config.getDefinedFloat("jatica.plating.knockback_resistance", 0.0F, "Knockback resistance value for all plating."));
+    private final Supplier<Float> platingDurabilityFactor = () -> config.getDefinedFloat("jatica.plating.durability_factor", 16.0F, "Durability factor for all plating.");
+    private final Supplier<Float> platingToughness = () -> config.getDefinedFloat("jatica.plating.toughness", 0.0F, "Toughness value for all plating.");
+    private final Supplier<Float> platingKnockbackResistance = () -> config.getDefinedFloat("jatica.plating.knockback_resistance", 0.0F, "Knockback resistance value for all plating.");
 
-    private final Lazy<List<String>> platingTraitsHelmet = Lazy.of(() -> config.getDefinedStringList("jatica.plating.helmet_traits", new ArrayList<>(), "List of helmet plating traits for this material."));
-    private final Lazy<List<String>> platingTraitsChestplate = Lazy.of(() -> config.getDefinedStringList("jatica.plating.chestplate_traits", new ArrayList<>(), "List of chestplate plating traits for this material."));
-    private final Lazy<List<String>> platingTraitsLeggings = Lazy.of(() -> config.getDefinedStringList("jatica.plating.leggings_traits", new ArrayList<>(), "List of leggings plating traits for this material."));
-    private final Lazy<List<String>> platingTraitsBoots = Lazy.of(() -> config.getDefinedStringList("jatica.plating.boots_traits", new ArrayList<>(), "List of boots plating traits for this material."));
-    private final Lazy<List<String>> platingTraitsShield = Lazy.of(() -> config.getDefinedStringList("jatica.plating.shield_traits", new ArrayList<>(), "List of shield plating traits for this material."));
+    private final Supplier<List<String>> platingTraitsHelmet = () -> config.getDefinedStringList("jatica.plating.helmet_traits", new ArrayList<>(), "List of helmet plating traits for this material.");
+    private final Supplier<List<String>> platingTraitsChestplate = () -> config.getDefinedStringList("jatica.plating.chestplate_traits", new ArrayList<>(), "List of chestplate plating traits for this material.");
+    private final Supplier<List<String>> platingTraitsLeggings = () -> config.getDefinedStringList("jatica.plating.leggings_traits", new ArrayList<>(), "List of leggings plating traits for this material.");
+    private final Supplier<List<String>> platingTraitsBoots = () -> config.getDefinedStringList("jatica.plating.boots_traits", new ArrayList<>(), "List of boots plating traits for this material.");
+    private final Supplier<List<String>> platingTraitsShield = () -> config.getDefinedStringList("jatica.plating.shield_traits", new ArrayList<>(), "List of shield plating traits for this material.");
 
-    private final Lazy<Boolean> mailleEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.maille.enabled", true, "If true, add the maille parts."));
-    private final Lazy<List<String>> mailleTraits = Lazy.of(() -> config.getDefinedStringList("jatica.maille.traits", new ArrayList<>(), "List of maille traits for this material."));
+    private final Supplier<Boolean> mailleEnabled = () -> config.getDefinedBoolean("jatica.maille.enabled", true, "If true, add the maille parts.");
+    private final Supplier<List<String>> mailleTraits = () -> config.getDefinedStringList("jatica.maille.traits", new ArrayList<>(), "List of maille traits for this material.");
 
-    private final Lazy<Boolean> repairKitEnabled = Lazy.of(() -> config.getDefinedBoolean("jatica.repair_kit.enabled", false, "If true, add the repair kit."));
+    private final Supplier<Boolean> repairKitEnabled = () -> config.getDefinedBoolean("jatica.repair_kit.enabled", false, "If true, add the repair kit.");
 
     public MaterialConfig(IDynamicSpecConfig config) {
         this.config = config;
@@ -105,235 +105,235 @@ public class MaterialConfig {
         ).filter(s -> !s.isEmpty()).map(s -> "tconstruct:" + s).toList();
     }
 
-    public Lazy<Boolean> getMaterialCraftable() {
+    public Supplier<Boolean> getMaterialCraftable() {
         return materialCraftable;
     }
 
-    public Lazy<Boolean> getMaterialCastable() {
+    public Supplier<Boolean> getMaterialCastable() {
         return materialCastable;
     }
 
-    public Lazy<Boolean> getMaterialMeltable() {
+    public Supplier<Boolean> getMaterialMeltable() {
         return materialMeltable;
     }
 
-    public Lazy<Integer> getMaterialTier() {
+    public Supplier<Integer> getMaterialTier() {
         return materialTier;
     }
 
-    public Lazy<Integer> getMaterialSortOrder() {
+    public Supplier<Integer> getMaterialSortOrder() {
         return materialSortOrder;
     }
 
-    public Lazy<Boolean> getMaterialHidden() {
+    public Supplier<Boolean> getMaterialHidden() {
         return materialHidden;
     }
 
-    public Lazy<List<String>> getMaterialFluid() {
+    public Supplier<List<String>> getMaterialFluid() {
         return materialFluid;
     }
 
-    public Lazy<List<String>> getTraitsDefault() {
+    public Supplier<List<String>> getTraitsDefault() {
         return traitsDefault;
     }
 
-    public Lazy<List<String>> getTraitsMeleeHarvest() {
+    public Supplier<List<String>> getTraitsMeleeHarvest() {
         return traitsMeleeHarvest;
     }
 
-    public Lazy<List<String>> getTraitsRanged() {
+    public Supplier<List<String>> getTraitsRanged() {
         return traitsRanged;
     }
 
-    public Lazy<List<String>> getTraitsArmor() {
+    public Supplier<List<String>> getTraitsArmor() {
         return traitsArmor;
     }
 
-    public Lazy<Boolean> getHeadEnabled() {
+    public Supplier<Boolean> getHeadEnabled() {
         return headEnabled;
     }
 
-    public Lazy<Integer> getHeadDurability() {
+    public Supplier<Integer> getHeadDurability() {
         return headDurability;
     }
 
-    public Lazy<Float> getHeadMiningSpeed() {
+    public Supplier<Float> getHeadMiningSpeed() {
         return headMiningSpeed;
     }
 
-    public Lazy<Tiers> getHeadMiningTier() {
+    public Supplier<Tiers> getHeadMiningTier() {
         return headMiningTier;
     }
 
-    public Lazy<Float> getHeadAttackDamage() {
+    public Supplier<Float> getHeadAttackDamage() {
         return headAttackDamage;
     }
 
-    public Lazy<List<String>> getHeadTraits() {
+    public Supplier<List<String>> getHeadTraits() {
         return headTraits;
     }
 
-    public Lazy<Boolean> getHandleEnabled() {
+    public Supplier<Boolean> getHandleEnabled() {
         return handleEnabled;
     }
 
-    public Lazy<Float> getHandleDurability() {
+    public Supplier<Float> getHandleDurability() {
         return handleDurability;
     }
 
-    public Lazy<Float> getHandleAttackDamage() {
+    public Supplier<Float> getHandleAttackDamage() {
         return handleAttackDamage;
     }
 
-    public Lazy<Float> getHandleAttackSpeed() {
+    public Supplier<Float> getHandleAttackSpeed() {
         return handleAttackSpeed;
     }
 
-    public Lazy<Float> getHandleMiningSpeed() {
+    public Supplier<Float> getHandleMiningSpeed() {
         return handleMiningSpeed;
     }
 
-    public Lazy<List<String>> getHandleTraits() {
+    public Supplier<List<String>> getHandleTraits() {
         return handleTraits;
     }
 
-    public Lazy<Boolean> getBindingEnabled() {
+    public Supplier<Boolean> getBindingEnabled() {
         return bindingEnabled;
     }
 
-    public Lazy<List<String>> getBindingTraits() {
+    public Supplier<List<String>> getBindingTraits() {
         return bindingTraits;
     }
 
-    public Lazy<Boolean> getLimbEnabled() {
+    public Supplier<Boolean> getLimbEnabled() {
         return limbEnabled;
     }
 
-    public Lazy<Integer> getLimbDurability() {
+    public Supplier<Integer> getLimbDurability() {
         return limbDurability;
     }
 
-    public Lazy<Float> getLimbDrawSpeed() {
+    public Supplier<Float> getLimbDrawSpeed() {
         return limbDrawSpeed;
     }
 
-    public Lazy<Float> getLimbVelocity() {
+    public Supplier<Float> getLimbVelocity() {
         return limbVelocity;
     }
 
-    public Lazy<Float> getLimbAccuracy() {
+    public Supplier<Float> getLimbAccuracy() {
         return limbAccuracy;
     }
 
-    public Lazy<List<String>> getLimbTraits() {
+    public Supplier<List<String>> getLimbTraits() {
         return limbTraits;
     }
 
-    public Lazy<Boolean> getGripEnabled() {
+    public Supplier<Boolean> getGripEnabled() {
         return gripEnabled;
     }
 
-    public Lazy<Float> getGripDurability() {
+    public Supplier<Float> getGripDurability() {
         return gripDurability;
     }
 
-    public Lazy<Float> getGripAccuracy() {
+    public Supplier<Float> getGripAccuracy() {
         return gripAccuracy;
     }
 
-    public Lazy<Float> getGripAttackDamage() {
+    public Supplier<Float> getGripAttackDamage() {
         return gripAttackDamage;
     }
 
-    public Lazy<List<String>> getGripTraits() {
+    public Supplier<List<String>> getGripTraits() {
         return gripTraits;
     }
 
-    public Lazy<Boolean> getBowstringEnabled() {
+    public Supplier<Boolean> getBowstringEnabled() {
         return bowstringEnabled;
     }
 
-    public Lazy<List<String>> getBowstringTraits() {
+    public Supplier<List<String>> getBowstringTraits() {
         return bowstringTraits;
     }
 
-    public Lazy<Boolean> getPlatingHelmetEnabled() {
+    public Supplier<Boolean> getPlatingHelmetEnabled() {
         return platingHelmetEnabled;
     }
 
-    public Lazy<Boolean> getPlatingChestplateEnabled() {
+    public Supplier<Boolean> getPlatingChestplateEnabled() {
         return platingChestplateEnabled;
     }
 
-    public Lazy<Boolean> getPlatingLeggingsEnabled() {
+    public Supplier<Boolean> getPlatingLeggingsEnabled() {
         return platingLeggingsEnabled;
     }
 
-    public Lazy<Boolean> getPlatingBootsEnabled() {
+    public Supplier<Boolean> getPlatingBootsEnabled() {
         return platingBootsEnabled;
     }
 
-    public Lazy<Boolean> getPlatingShieldEnabled() {
+    public Supplier<Boolean> getPlatingShieldEnabled() {
         return platingShieldEnabled;
     }
 
-    public Lazy<Float> getPlatingHelmetArmor() {
+    public Supplier<Float> getPlatingHelmetArmor() {
         return platingHelmetArmor;
     }
 
-    public Lazy<Float> getPlatingChestplateArmor() {
+    public Supplier<Float> getPlatingChestplateArmor() {
         return platingChestplateArmor;
     }
 
-    public Lazy<Float> getPlatingLeggingsArmor() {
+    public Supplier<Float> getPlatingLeggingsArmor() {
         return platingLeggingsArmor;
     }
 
-    public Lazy<Float> getPlatingBootsArmor() {
+    public Supplier<Float> getPlatingBootsArmor() {
         return platingBootsArmor;
     }
 
-    public Lazy<Float> getPlatingDurabilityFactor() {
+    public Supplier<Float> getPlatingDurabilityFactor() {
         return platingDurabilityFactor;
     }
 
-    public Lazy<Float> getPlatingToughness() {
+    public Supplier<Float> getPlatingToughness() {
         return platingToughness;
     }
 
-    public Lazy<Float> getPlatingKnockbackResistance() {
+    public Supplier<Float> getPlatingKnockbackResistance() {
         return platingKnockbackResistance;
     }
 
-    public Lazy<List<String>> getPlatingTraitsHelmet() {
+    public Supplier<List<String>> getPlatingTraitsHelmet() {
         return platingTraitsHelmet;
     }
 
-    public Lazy<List<String>> getPlatingTraitsChestplate() {
+    public Supplier<List<String>> getPlatingTraitsChestplate() {
         return platingTraitsChestplate;
     }
 
-    public Lazy<List<String>> getPlatingTraitsLeggings() {
+    public Supplier<List<String>> getPlatingTraitsLeggings() {
         return platingTraitsLeggings;
     }
 
-    public Lazy<List<String>> getPlatingTraitsBoots() {
+    public Supplier<List<String>> getPlatingTraitsBoots() {
         return platingTraitsBoots;
     }
 
-    public Lazy<List<String>> getPlatingTraitsShield() {
+    public Supplier<List<String>> getPlatingTraitsShield() {
         return platingTraitsShield;
     }
 
-    public Lazy<Boolean> getMailleEnabled() {
+    public Supplier<Boolean> getMailleEnabled() {
         return mailleEnabled;
     }
 
-    public Lazy<List<String>> getMailleTraits() {
+    public Supplier<List<String>> getMailleTraits() {
         return mailleTraits;
     }
 
-    public Lazy<Boolean> getRepairKitEnabled() {
+    public Supplier<Boolean> getRepairKitEnabled() {
         return repairKitEnabled;
     }
 }
