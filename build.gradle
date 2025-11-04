@@ -79,12 +79,24 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+
     modImplementation "curse.maven:jaopca-266936:6052504"
     modImplementation "curse.maven:mantle-74924:6635380"
     modImplementation "curse.maven:tinkers-construct-74072:6635554"
     modRuntimeOnly "curse.maven:jei-238222:6600311"
 }
 
+mixin {
+    add(sourceSets.main, "${mod_id}.refmap.json")
+    config("${mod_id}.mixins.json")
+}
+
+jar {
+    manifest.attributes([
+            "MixinConfigs": "${mod_id}.mixins.json"
+    ])
+}
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
     var replaceProperties = [minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
