@@ -61,3 +61,17 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "jaopca"
+mandatory = true
+versionRange = "[4.4.13.23,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "tconstruct"
+mandatory = true
+versionRange = "[3.10.1.76,)"
+ordering = "NONE"
+side = "BOTH"
