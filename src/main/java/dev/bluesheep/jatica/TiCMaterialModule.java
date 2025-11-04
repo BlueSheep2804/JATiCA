@@ -128,9 +128,12 @@ public class TiCMaterialModule implements IModule {
 
     @Override
     public void onCreateResourcePack(IModuleData moduleData, IInMemoryResourcePack resourcePack) {
+        HashMap<String, String> materialColors = new HashMap<>();
         for (IMaterial material : moduleData.getMaterials()) {
+            materialColors.put(material.getName(), "#" + Integer.toHexString(material.getColor()).substring(2));
             resourcePack.putJson(PackType.CLIENT_RESOURCES, rl("tinkering/materials/" + material.getName() + ".json"), TiCMaterialHelper.materialRenderInfoProvider(material, new MaterialConfig(configs.get(material))));
         }
+        resourcePack.putJson(PackType.CLIENT_RESOURCES, rl("mantle/colors.json"), TiCMaterialHelper.mantleColorsProvider(materialColors));
     }
 
     @SuppressWarnings("removal")

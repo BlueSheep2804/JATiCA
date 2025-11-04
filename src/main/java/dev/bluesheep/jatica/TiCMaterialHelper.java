@@ -11,10 +11,7 @@ import slimeknights.tconstruct.library.materials.stats.MaterialStatType;
 import slimeknights.tconstruct.tools.stats.*;
 import thelm.jaopca.api.materials.IMaterial;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TiCMaterialHelper {
@@ -165,6 +162,15 @@ public class TiCMaterialHelper {
         root.add("fallbacks", fallbacks);
         root.add("generator", generator);
 
+        return root;
+    }
+
+    public static JsonObject mantleColorsProvider(Map<String, String> materialColors) {
+        JsonObject colorsObject = new JsonObject();
+        materialColors.forEach(colorsObject::addProperty);
+
+        JsonObject root = new JsonObject();
+        root.add("material.jatica", colorsObject);
         return root;
     }
 
