@@ -114,6 +114,10 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
 sourceSets.main.resources.srcDir generateModMetadata
 legacyForge.ideSyncTask generateModMetadata
 
+tasks.processResources {
+    exclude("**/*.ase", "**/*.gif")
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
