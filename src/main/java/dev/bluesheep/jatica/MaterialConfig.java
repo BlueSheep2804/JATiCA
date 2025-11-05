@@ -78,7 +78,7 @@ public class MaterialConfig {
     private final Supplier<List<String>> platingTraitsBoots = () -> config.getDefinedStringList("jatica.plating.boots_traits", new ArrayList<>(), "List of boots plating traits for this material.");
     private final Supplier<List<String>> platingTraitsShield = () -> config.getDefinedStringList("jatica.plating.shield_traits", new ArrayList<>(), "List of shield plating traits for this material.");
 
-    private final Supplier<Boolean> mailleEnabled = () -> config.getDefinedBoolean("jatica.maille.enabled", true, "If true, add the maille parts.");
+    private final Supplier<Boolean> mailleEnabled = () -> config.getDefinedBoolean("jatica.maille.enabled", false, "If true, add the maille parts.");
     private final Supplier<List<String>> mailleTraits = () -> config.getDefinedStringList("jatica.maille.traits", new ArrayList<>(), "List of maille traits for this material.");
 
     private final Supplier<Boolean> repairKitEnabled = () -> config.getDefinedBoolean("jatica.repair_kit.enabled", false, "If true, add the repair kit.");
