@@ -1,5 +1,6 @@
 package dev.bluesheep.jatica.mixin;
 
+import dev.bluesheep.jatica.JATiCA;
 import dev.bluesheep.jatica.MaterialNameUtil;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,6 +11,9 @@ import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.tools.helper.TooltipUtil;
 import slimeknights.tconstruct.library.tools.part.MaterialItem;
 
+/**
+ * パーツの素材名を正しく返すためのMixin
+ */
 @Mixin(value = MaterialItem.class, remap = false)
 public class MaterialItemMixin {
     @Inject(
@@ -19,7 +23,7 @@ public class MaterialItemMixin {
     )
     private static void jatica$getName(String baseKey, MaterialVariantId variantId, CallbackInfoReturnable<Component> cir) {
         if (cir.getReturnValue() != null) return;
-        if (variantId.getId().getNamespace().equals("jatica")) {
+        if (variantId.getId().getNamespace().equals(JATiCA.MODID)) {
             cir.setReturnValue(Component.translatable(TooltipUtil.KEY_FORMAT, MaterialNameUtil.getMaterialName(variantId.getId()), Component.translatable(baseKey)));
         }
     }

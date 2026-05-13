@@ -2,12 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.bluesheep.jatica.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "jatica.refmap.json",
   "mixins": [
     "MaterialItemMixin",
-    "MaterialTooltipCacheMixin",
-    "TooltipUtilMixin"
+    "MaterialTooltipCacheMixin"
   ],
   "client": [
   ],
